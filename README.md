@@ -4,77 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siblings Forever</title>
+    <title>For My Favorite Sister</title>
     <style>
-        body {
+        body, html {
             margin: 0;
-            height: 100vh;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Dreamy Purple Sparkle Gradient */
-            background: radial-gradient(circle at center, #8e44ad, #4b0082, #2c003e);
-            background-size: 400% 400%;
-            animation: glitterMove 10s ease infinite;
-            overflow: hidden;
-            color: white;
-            text-align: center;
+            background: radial-gradient(circle at center, #6a0dad, #2c003e);
         }
 
-        /* Animated Sparkling Background Effect */
-        @keyframes glitterMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Sparkle Canvas Overlay */
+        #sparkleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicking through to buttons */
+            z-index: 1;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 20px rgba(231, 76, 190, 0.5);
-            max-width: 80%;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(230, 150, 255, 0.5);
+            text-align: center;
+            color: white;
+            max-width: 450px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #e0aaff;
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            text-shadow: 0 0 15px #e0aaff, 0 0 30px #8e44ad;
+            margin-bottom: 30px;
         }
 
         .btn-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
-            margin-top: 20px;
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 1.1rem;
+            padding: 15px 35px;
+            font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .btn-yes { background-color: #ff85a2; color: white; }
-        .btn-no { background-color: #a29bfe; color: white; }
+        .btn-yes { background: linear-gradient(45deg, #ff85a2, #ff0055); color: white; }
+        .btn-no { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; }
         
         button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px white;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 20px #fff;
         }
 
         .footer {
             margin-top: 30px;
-            font-style: italic;
-            font-size: 0.9rem;
-            opacity: 0.8;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .hidden { display: none; }
@@ -82,46 +92,111 @@
 </head>
 <body>
 
-    <div class="container" id="mainCard">
-        <div id="page1">
-            <h1 id="mainText">Siblings Forever????</h1>
+    <canvas id="sparkleCanvas"></canvas>
+
+    <div class="container">
+        <div id="step1">
+            <h1 id="questionText">siblings forever????</h1>
             <div class="btn-container">
-                <button class="btn-yes" onclick="showBirthday()">Yes!</button>
-                <button class="btn-no" onclick="askPretty()">No</button>
+                <button class="btn-yes" onclick="nextStep(2)">Yes!</button>
+                <button class="btn-no" onclick="bePretty()">no</button>
             </div>
         </div>
 
-        <div id="page2" class="hidden">
-            <h1>Happiest 20th birthday myyy darling sister💐💕</h1>
-            <p>Are you enjoying this?</p>
+        <div id="step2" class="hidden">
+            <h1>happiest 20th birthday myyy darling sister💐💕</h1>
+            <p style="font-size: 1.3rem;">Are you enjoying this?</p>
             <div class="btn-container">
-                <button class="btn-yes" onclick="showFinal()">Yes</button>
+                <button class="btn-yes" onclick="nextStep(3)">Yes!</button>
             </div>
         </div>
 
-        <div id="page3" class="hidden">
-            <h1>Me toooo sis🥳</h1>
+        <div id="step3" class="hidden">
+            <h1>me toooo sis🥳</h1>
             <div class="footer">
-                With immense love from Akash and Tiya💖💐💕
+                with immense love from <br>
+                <strong>Akash and Tiya💖💐💕</strong>
             </div>
         </div>
     </div>
 
     <script>
-        function askPretty() {
-            document.getElementById('mainText').innerText = "Prweeeeety pls💖";
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        function showBirthday() {
-            document.getElementById('page1').classList.add('hidden');
-            document.getElementById('page2').classList.remove('hidden');
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Sparkle Particle Class
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random();
+                this.blinkSpeed = Math.random() * 0.02 + 0.01;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity += this.blinkSpeed;
+                if (this.opacity > 1 || this.opacity < 0) this.blinkSpeed *= -1;
+                
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "white";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        function showFinal() {
-            document.getElementById('page2').classList.add('hidden');
-            document.getElementById('page3').classList.remove('hidden');
+        function init() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        // Logic Functions
+        function bePretty() {
+            document.getElementById('questionText').innerHTML = "prweeeeety pls💖";
+            document.getElementById('questionText').style.fontSize = "2.5rem";
+        }
+
+        function nextStep(step) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step' + step).classList.remove('hidden');
         }
     </script>
-
 </body>
 </html>
